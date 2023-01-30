@@ -1,0 +1,9 @@
+CREATE PROCEDURE InvertValue (@Id INT, @Column CHAR(1))
+AS
+BEGIN
+  SET NOCOUNT ON;
+
+  DECLARE @sql NVARCHAR(MAX) = N'UPDATE #TEST2 SET ' + @Column + ' = CASE WHEN ' + @Column + ' IS NOT NULL THEN (CASE WHEN ' + @Column + ' = 0 THEN 1 ELSE 0 END) ELSE ' + @Column + ' END WHERE Id = @IdValue';
+
+  EXEC sp_executesql @sql, N'@IdValue INT', @IdValue = @Id;
+END;
